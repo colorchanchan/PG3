@@ -1,55 +1,35 @@
-﻿#include <stdio.h>
+﻿﻿#include <iostream>
+#include <thread>
 #include <Windows.h>
 
-#include <algorithm>
-#include <cassert>
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <list>
+void Quadruple(int number) {
+	number *= 4;
+	std::cout << "thread 1 : " << number << std::endl;
+}
 
-struct StudentAccount {
-	std::string name;
-	std::string gradeNumber;
-	std::string attendanceNumber;
-};
+void AddFour(int number) {
+	number += 4;
+	std::cout << "thread 2 : " << number << std::endl;
+}
 
-int main() {
+void SubtractFour(int number) {
+	number -= 4;
+	std::cout << "thread 3 : " << number << std::endl;
+}
+
+int main(void) {
 	SetConsoleOutputCP(65001);
 
-	std::list<StudentAccount> studentAccounts;
+	int number = 4;
 
-	// 読み込むファイルを開く
-	std::ifstream inputFile("05_02.txt");
-	assert(inputFile.is_open());
+	std::thread th1(Quadruple, number);
+	th1.join();
 
-	// 行ごとに読み込み
-	std::string line;
-	while (getline(inputFile, line)) {
-		// 1行分の文字列をストリームに変換して解析しやすくする
-		std::istringstream lineStream(line);
-		std::string account;
+	std::thread th2(AddFour, number);
+	th2.join();
 
-		while (getline(lineStream, account, ',')) {
-			StudentAccount studentAccount{};
-			studentAccount.name = account;
-			std::string gradeNumber = account.substr(2, 3);
-			std::string attendanceNumber = account.substr(6, 4);
-			studentAccount.gradeNumber = gradeNumber.c_str();
-			studentAccount.attendanceNumber = attendanceNumber.c_str();
-			studentAccounts.emplace_back(studentAccount);
-		}
-	}
+	std::thread th3(SubtractFour, number);
+	th3.join();
 
-	// ファイルを閉じる
-	inputFile.close();
-
-	studentAccounts.sort([](const StudentAccount& a, const StudentAccount& b) {
-		return  std::atoi((a.gradeNumber + a.attendanceNumber).c_str()) < std::atoi((b.gradeNumber + b.attendanceNumber).c_str());
-		});
-
-	for (auto& accountName : studentAccounts) {
-		std::cout << accountName.name << std::endl;
-	}
 	return 0;
 }
