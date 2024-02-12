@@ -1,19 +1,20 @@
-﻿﻿#include "Kamata.h"
-#include "Hachioji.h"
+﻿﻿#include "Shape/Circle/Circle.h"
+#include "Shape/Rectangle/Rectangle.h"
 
 int main(void) {
-	const size_t kCount = 2;
-	NEEC* neec[kCount];
+	const size_t kShape = 2;
+	IShape* shape[kShape];
 
-	neec[0] = new Kamata("Kamata Campus");
-	neec[1] = new Hachioji("Hachioji Campus");
+	shape[0] = new Circle(8.0f);
+	shape[1] = new Rectangle(4.0f, 11.0f);
 
-	for (size_t i = 0; i < kCount; i++) {
-		neec[i]->DisplayName();
+	for (size_t i = 0; i < kShape; i++) {
+		shape[i]->Size();
+		shape[i]->Draw();
 	}
 
-	for (size_t i = 0; i < kCount; i++) {
-		delete neec[i];
+	for (size_t i = 0; i < kShape; i++) {
+		delete shape[i];
 	}
 
 	return 0;

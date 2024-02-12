@@ -128,10 +128,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="NEEC\Kamata\Kamata.cpp" />
+    <ClCompile Include="Shape\IShape.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NEEC\Kamata\Kamata.h" />
+    <ClInclude Include="Shape\IShape.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
