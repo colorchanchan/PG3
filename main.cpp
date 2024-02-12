@@ -1,35 +1,30 @@
 ﻿﻿#include <iostream>
-#include <thread>
+#include <string>
+#include <chrono>
 #include <Windows.h>
 
-void Quadruple(int number) {
-	number *= 4;
-	std::cout << "thread 1 : " << number << std::endl;
-}
-
-void AddFour(int number) {
-	number += 4;
-	std::cout << "thread 2 : " << number << std::endl;
-}
-
-void SubtractFour(int number) {
-	number -= 4;
-	std::cout << "thread 3 : " << number << std::endl;
-}
-
 int main(void) {
-	SetConsoleOutputCP(65001);
+    // SetConsoleOutputCP(65001);
 
-	int number = 4;
+    std::string a(100000, 'a');
 
-	std::thread th1(Quadruple, number);
-	th1.join();
+    {
+        auto start = std::chrono::steady_clock::now();
+        std::string copy = a;
+        auto end = std::chrono::steady_clock::now();
 
-	std::thread th2(AddFour, number);
-	th2.join();
+        auto duration = end - start;
+        std::cout << "コピーにかかった時間: " << duration.count() << " マイクロ秒" << std::endl;
+    }
 
-	std::thread th3(SubtractFour, number);
-	th3.join();
+    {
+        auto start = std::chrono::steady_clock::now();
+        std::string move = std::move(a);
+        auto end = std::chrono::steady_clock::now();
 
-	return 0;
+        auto duration = end - start;
+        std::cout << "移動にかかった時間: " << duration.count() << " マイクロ秒" << std::endl;
+    }
+
+    return 0;
 }
