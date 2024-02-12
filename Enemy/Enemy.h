@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 class Enemy {
 public:
@@ -16,6 +16,6 @@ private:
 	void Fire();
 	void Leave();
 
-	Phase phase_ = Phase::kApproach;
+	State state_ = State::kApproach;
 	static void (Enemy::* funcTable[])();
 };
