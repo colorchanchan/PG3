@@ -18,12 +18,12 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy\Enemy.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Comparison\Comparison.cpp">
+      <Filter>ヘッダー ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Enemy\Enemy.h">
+    <ClInclude Include="Comparison\Comparison.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
