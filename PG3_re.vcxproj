@@ -127,11 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Comparison\Comparison.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NEEC\Kamata\Kamata.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Comparison\Comparison.h" />
+    <ClInclude Include="NEEC\Kamata\Kamata.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

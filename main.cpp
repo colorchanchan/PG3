@@ -1,23 +1,20 @@
-﻿﻿﻿#include "Comparison.h"
-
-#include <iostream>
-
-using namespace std;
+﻿﻿#include "Kamata.h"
+#include "Hachioji.h"
 
 int main(void) {
-	Comparison<int, int, int> int_0(3, 7);
-	Comparison<int, float, float> int_1(9, 3.0f);
-	Comparison<int, double, double> int_2(12, 24.0);
-	Comparison<float, float, float> float_0(8.0f, 14.0f);
-	Comparison<float, double, double> float_1(10.0f, 23.0f);
-	Comparison<double, double, double> double_0(3.0, 11.0);
+	const size_t kCount = 2;
+	NEEC* neec[kCount];
 
-	cout << int_0.Min() << endl;
-	cout << int_1.Min() << endl;
-	cout << int_2.Min() << endl;
-	cout << float_0.Min() << endl;
-	cout << float_1.Min() << endl;
-	cout << double_0.Min() << endl;
+	neec[0] = new Kamata("Kamata Campus");
+	neec[1] = new Hachioji("Hachioji Campus");
+
+	for (size_t i = 0; i < kCount; i++) {
+		neec[i]->DisplayName();
+	}
+
+	for (size_t i = 0; i < kCount; i++) {
+		delete neec[i];
+	}
 
 	return 0;
 }
