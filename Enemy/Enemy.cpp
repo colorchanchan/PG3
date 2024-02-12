@@ -1,51 +1,29 @@
 ﻿#include "Enemy.h"
+#include <stdio.h>
+#include <Windows.h>
 
-void (Enemy::* Enemy::statePatternTable[])() = {
-	&Enemy::Approach,
-	&Enemy::Fire,
-	&Enemy::Leave
+void (Enemy::* Enemy::funcTable[])() = {
+	&Enemy::kApproach,
+	&Enemy::kFire,
+	&Enemy::kLeave,
 };
 
 void Enemy::Update() {
-	while (switchKey_ <= 4) {
-		switch (switchKey_ - 1) {
-		case static_cast<size_t>(Enemy::State::kApproach):
-			(this->*statePatternTable[static_cast<size_t>(State::kApproach)])();
-			break;
-
-		case static_cast<size_t>(Enemy::State::kFire):
-			(this->*statePatternTable[static_cast<size_t>(State::kFire)])();
-			break;
-
-		case static_cast<size_t>(Enemy::State::kLeave):
-			(this->*statePatternTable[static_cast<size_t>(State::kLeave)])();
-			break;
-		}
-	}
-}
-
-void Enemy::BehaviorChange() {
-	Sleep(1000);
-	cout << "行動変更" << endl;
-	Sleep(1000);
-	switchKey_ += 1;
-
-	if (switchKey_ == 3) {
-		switchKey_ = 0;
-	}
+	(this->*funcTable[static_cast<size_t>(phase_)])();
 }
 
 void Enemy::Approach() {
-	cout << "接近" << endl;
-	BehaviorChange();
+	printf("接近\n");
+	Sleep(3 * 1000);
+	phase_ = Phase::SHOOT;
 }
 
 void Enemy::Fire() {
-	cout << "射撃" << endl;
-	BehaviorChange();
+	printf("射撃\n");
+	Sleep(3 * 1000);
+	phase_ = Phase::LEAVE;
 }
 
 void Enemy::Leave() {
-	cout << "離脱" << endl;
-	BehaviorChange();
+	printf("離脱\n");
 }
