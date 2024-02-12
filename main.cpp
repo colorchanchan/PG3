@@ -1,71 +1,55 @@
 ﻿#include <stdio.h>
-#include <iostream>
 #include <Windows.h>
+
+#include <algorithm>
+#include <cassert>
+#include <fstream>
+#include <iostream>
+#include <sstream>
 #include <list>
 
-int main(void) {
+struct StudentAccount {
+	std::string name;
+	std::string gradeNumber;
+	std::string attendanceNumber;
+};
+
+int main() {
 	SetConsoleOutputCP(65001);
 
-	std::list<const char*> yamanoteStationName = {
-		"Tokyo",
-		"Kanda",
-		"Akihabara",
-		"Okachimachi",
-		"Ueno",
-		"Uguisudani",
-		"Nippori",
-		"Tabata",
-		"Komagome",
-		"Sugamo",
-		"Otsuka",
-		"Ikebukuro",
-		"Mejiro",
-		"Takadanobaba",
-		"Shin-Okubo",
-		"Shinjuku",
-		"Yoyogi",
-		"Harajuku",
-		"Shibuya",
-		"Ebisu",
-		"Meguro",
-		"Gotanda",
-		"Osaki",
-		"Shinagawa",
-		"Tamachi",
-		"Hamamatsucho",
-		"Shimbashi",
-		"Yurakucho",
-	};
+	std::list<StudentAccount> studentAccounts;
 
-	std::cout << "1970年の山手線駅一覧" << std::endl;
+	// 読み込むファイルを開く
+	std::ifstream inputFile("05_02.txt");
+	assert(inputFile.is_open());
 
-	for (auto& name : yamanoteStationName) {
-		std::cout << name << std::endl;
+	// 行ごとに読み込み
+	std::string line;
+	while (getline(inputFile, line)) {
+		// 1行分の文字列をストリームに変換して解析しやすくする
+		std::istringstream lineStream(line);
+		std::string account;
+
+		while (getline(lineStream, account, ',')) {
+			StudentAccount studentAccount{};
+			studentAccount.name = account;
+			std::string gradeNumber = account.substr(2, 3);
+			std::string attendanceNumber = account.substr(6, 4);
+			studentAccount.gradeNumber = gradeNumber.c_str();
+			studentAccount.attendanceNumber = attendanceNumber.c_str();
+			studentAccounts.emplace_back(studentAccount);
+		}
 	}
 
-	std::cout << "\n" << std::endl;
+	// ファイルを閉じる
+	inputFile.close();
 
-	auto findStationNameIterator = std::find(yamanoteStationName.begin(), yamanoteStationName.end(), "Nippori");
-	findStationNameIterator++;
-	yamanoteStationName.insert(findStationNameIterator, "Nishi-Nippori");
+	studentAccounts.sort([](const StudentAccount& a, const StudentAccount& b) {
+		return  std::atoi((a.gradeNumber + a.attendanceNumber).c_str()) < std::atoi((b.gradeNumber + b.attendanceNumber).c_str());
+		});
 
-	std::cout << "2019年の山手線駅一覧" << std::endl;
-
-	for (auto& name : yamanoteStationName) {
-		std::cout << name << std::endl;
+	for (auto& accountName : studentAccounts) {
+		std::cout << accountName.name << std::endl;
 	}
-
-	std::cout << "\n" << std::endl;
-
-	findStationNameIterator = std::find(yamanoteStationName.begin(), yamanoteStationName.end(), "Shinagawa");
-	findStationNameIterator++;
-	findStationNameIterator = yamanoteStationName.insert(findStationNameIterator, "Takanawa Gateway");
-
-	std::cout << "2022年の山手線駅一覧" << std::endl;
-
-	for (auto& name : yamanoteStationName) {
-		std::cout << name << std::endl;
-	}
-
 	return 0;
 }
